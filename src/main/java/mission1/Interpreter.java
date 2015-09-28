@@ -13,15 +13,15 @@ public class Interpreter extends InterpreterTests{
 				mystack1.push(Integer.parseInt(str[i]));
 			}
 			
-			else if(str[i].compareTo("pstack")){}
+			else if(str[i].equals("pstack")){}
 			
-			else if(str[i].compareTo("add")){}
+			else if(str[i].equals("add")){}
 
-			else if(str[i].compareTo("sub")){}
+			else if(str[i].equals("sub")){}
 			
-			else if(str[i].compareTo("mul")){}
+			else if(str[i].equals("mul")){}
 			
-			else if(str[i].compareTo("div")){}
+			else if(str[i].equals("div")){}
 			
 			else if(str[i].compareTo("dup")==0){
 				Integer newint = new Integer(mystack1.peek());
@@ -36,13 +36,13 @@ public class Interpreter extends InterpreterTests{
 				
 			}
 			
-			else if(str[i].compareTo("eq")){}
+			else if(str[i].equals("eq")){}
 			
-			else if(str[i].compareTo("ne")){}
+			else if(str[i].equals("ne")){}
 			
-			else if(str[i].compareTo("def")){}
+			else if(str[i].equals("def")){}
 		
-			else if(str[i].compareTo("pop")){}			
+			else if(str[i].equals("pop")){}			
 		}
 		
 		return stringretour;
@@ -61,19 +61,19 @@ public class Interpreter extends InterpreterTests{
 	}
 	
 	private int add(int i, int j){
-		
+		return 0;
 	}
 	
 	private int sub(int i, int j){
-		
+		return 0;
 	}
 	
 	private int mul(int i, int j){
-		
+		return 0;
 	}
 	
 	private int div(int i, int j){
-		
+		return 0;
 	}
 	
 	private void dup(Stack<Integer> mystack){
@@ -85,11 +85,11 @@ public class Interpreter extends InterpreterTests{
 	}
 	
 	private boolean eq(int i, int j){
-		
+		return false;
 	}
 	
 	private boolean ne(int i, int j) {
-		
+		return false;
 	}
 	
 	private void def(){
