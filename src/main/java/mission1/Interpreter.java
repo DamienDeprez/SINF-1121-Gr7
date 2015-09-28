@@ -8,9 +8,9 @@ public class Interpreter extends InterpreterTests{
 		String[] str = instructions.split(" ");
 		MyStack<Integer> mystack1 = new MyStack<Integer>();
 		int i;
-		for(int i = 0; i < str.length; i++){
+		for(i = 0; i < str.length; i++){
 			if(isanint(str[i])){
-				
+				mystack1.push(Integer.parseInt(str[i]));
 			}
 		}
 		
