@@ -23,9 +23,18 @@ public class Interpreter extends InterpreterTests{
 			
 			else if(str[i].compareTo("div")){}
 			
-			else if(str[i].compareTo("dup")){}
+			else if(str[i].compareTo("dup")==0){
+				Integer newint = new Integer(mystack1.peek());
+				mystack1.push(newint);
+			}
 			
-			else if(str[i].compareTo("exch")){}
+			else if(str[i].compareTo("exch")==0){
+				Integer int1 = mystack1.pop();
+				Integer int2 = mystack1.pop();
+				mystack1.push(int1);
+				mystack1.push(int2);
+				
+			}
 			
 			else if(str[i].compareTo("eq")){}
 			
