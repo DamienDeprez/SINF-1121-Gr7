@@ -2,7 +2,7 @@ package mission1;
 
 import java.util.EmptyStackException;
 
-public class MyStack implements Stack<E> {
+public class MyStack<E> implements Stack<E> {
 
 	@Override
 	public boolean empty() {
