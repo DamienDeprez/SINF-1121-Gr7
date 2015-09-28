@@ -13,6 +13,27 @@ public class Interpreter extends InterpreterTests{
 				mystack1.push(Integer.parseInt(str[i]));
 			}
 			
+			else if(str[i].compareTo("pstack")){}
+			
+			else if(str[i].compareTo("add")){}
+
+			else if(str[i].compareTo("sub")){}
+			
+			else if(str[i].compareTo("mul")){}
+			
+			else if(str[i].compareTo("div")){}
+			
+			else if(str[i].compareTo("dup")){}
+			
+			else if(str[i].compareTo("exch")){}
+			
+			else if(str[i].compareTo("eq")){}
+			
+			else if(str[i].compareTo("ne")){}
+			
+			else if(str[i].compareTo("def")){}
+		
+			else if(str[i].compareTo("pop")){}			
 		}
 		
 		return stringretour;
