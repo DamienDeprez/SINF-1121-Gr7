@@ -6,5 +6,5 @@ Répository du Groupe 9 pour le cours d'Algorithmique et structures de données 
 
 * add, sub, mul, div -> Charlotte
 * dup, exch -> Merlin
-* eq, ne -> Damien
-* pstack, def -> Cyril et Alexis
+* eq, ne, pstack -> Cyril et Alexis
+* def -> Damien
