@@ -1,4 +1,4 @@
-package individuel.mission1;
+package mission1;
 
 import java.util.EmptyStackException;
 
