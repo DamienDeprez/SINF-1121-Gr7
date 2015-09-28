@@ -12,6 +12,7 @@ public class Interpreter extends InterpreterTests{
 			if(isanint(str[i])){
 				
 			}
+			
 		}
 		
 		return stringretour;
@@ -24,5 +25,48 @@ public class Interpreter extends InterpreterTests{
 			return false;
 		}
 		return true;
+	}
+	private void pstack(Stack<Integer> mystack){
+		
+	}
+	
+	private int add(int i, int j){
+		
+	}
+	
+	private int sub(int i, int j){
+		
+	}
+	
+	private int mul(int i, int j){
+		
+	}
+	
+	private int div(int i, int j){
+		
+	}
+	
+	private void dup(Stack<Integer> mystack){
+		
+	}
+	
+	private void exch(Stack<Integer> mystack){
+		
+	}
+	
+	private boolean eq(int i, int j){
+		
+	}
+	
+	private boolean ne(int i, int j) {
+		
+	}
+	
+	private void def(){
+		
+	}
+	
+	private void pop(Stack<Integer> mystack){
+		mystack.pop();
 	}
 }
