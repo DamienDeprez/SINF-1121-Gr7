@@ -100,17 +100,19 @@ public class Interpreter implements InterpreterInterface {
         return false;
     }
 
-    private void def(String key) {
+    private boolean def(String key) {
 
         //si la clé est un mot clé utilisé par le programme, retourne une erreur
         if(Arrays.asList(keyword).contains(key))
         {
-            //TODO lancer une exception
+            return false;
         }
         else
         {
+            key = key.substring(1);// retire le caractère "\" de la string
             Double value = memory.pop();
             def.put(key,value);
+            return true;
         }
     }
 
