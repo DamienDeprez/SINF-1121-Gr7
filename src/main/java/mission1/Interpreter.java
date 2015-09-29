@@ -6,7 +6,7 @@ import java.util.Map;
 public class Interpreter implements InterpreterInterface {
 
     private Stack<Double> memory = new MyStack<>(); // pile stockant les nombres à traiter
-    private Map <String, Double> def = new HashMap(); //Map stockant les définitions => def.get(Key) retourne la valeur associé à la clé
+    private Map<String, Double> def = new HashMap(); //Map stockant les définitions => def.get(Key) retourne la valeur associé à la clé
 
     @Override
     public String interpret(String instructions) {
@@ -51,7 +51,14 @@ public class Interpreter implements InterpreterInterface {
     }
 
     private void pstack() {
-
+        Stack<Double> mystackbis = memory;
+        if (mystackbis == null) {
+            System.out.print("");
+        } else {
+            while (mystackbis != null) {
+                System.out.print(mystackbis.pop() + " ");
+            }
+        }
     }
 
     private double add(double i, double j) {
