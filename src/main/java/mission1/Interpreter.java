@@ -1,28 +1,34 @@
 package mission1;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Interpreter implements InterpreterInterface {
+
+    private Stack<Double> memory = new MyStack<>(); // pile stockant les nombres à traiter
+    private Map <String, Double> def = new HashMap(); //Map stockant les définitions => def.get(Key) retourne la valeur associé à la clé
+
     @Override
     public String interpret(String instructions) {
         String stringretour = null;
         String[] str = instructions.split(" ");
-        MyStack<Integer> mystack1 = new MyStack<Integer>();
         int i;
         for (i = 0; i < str.length; i++) {
-            if (isanint(str[i])) {
-                mystack1.push(Integer.parseInt(str[i]));
+            if (isDouble(str[i])) {
+                memory.push(Double.parseDouble(str[i]));
             } else if (str[i].equals("pstack")) {
             } else if (str[i].equals("add")) {
             } else if (str[i].equals("sub")) {
             } else if (str[i].equals("mul")) {
             } else if (str[i].equals("div")) {
             } else if (str[i].compareTo("dup") == 0) {
-                Integer newint = new Integer(mystack1.peek());
-                mystack1.push(newint);
+                Double newint = memory.peek();
+                memory.push(newint);
             } else if (str[i].compareTo("exch") == 0) {
-                Integer int1 = mystack1.pop();
-                Integer int2 = mystack1.pop();
-                mystack1.push(int1);
-                mystack1.push(int2);
+                Double int1 = memory.pop();
+                Double int2 = memory.pop();
+                memory.push(int1);
+                memory.push(int2);
 
             } else if (str[i].equals("eq")) {
             } else if (str[i].equals("ne")) {
@@ -35,48 +41,48 @@ public class Interpreter implements InterpreterInterface {
 
     }
 
-    private boolean isanint(String string) {
+    private boolean isDouble(String string) {
         try {
-            Integer.parseInt(string);
+            Double.parseDouble(string);
         } catch (NumberFormatException e) {
             return false;
         }
         return true;
     }
 
-    private void pstack(Stack<Integer> mystack) {
+    private void pstack() {
 
     }
 
-    private int add(int i, int j) {
+    private double add(double i, double j) {
         return 0;
     }
 
-    private int sub(int i, int j) {
+    private double sub(double i, double j) {
         return 0;
     }
 
-    private int mul(int i, int j) {
+    private double mul(double i, double j) {
         return 0;
     }
 
-    private int div(int i, int j) {
+    private double div(double i, double j) {
         return 0;
     }
 
-    private void dup(Stack<Integer> mystack) {
+    private void dup() {
 
     }
 
-    private void exch(Stack<Integer> mystack) {
+    private void exch() {
 
     }
 
-    private boolean eq(int i, int j) {
+    private boolean eq(double i, double j) {
         return false;
     }
 
-    private boolean ne(int i, int j) {
+    private boolean ne(double i, double j) {
         return false;
     }
 
@@ -84,7 +90,7 @@ public class Interpreter implements InterpreterInterface {
 
     }
 
-    private void pop(Stack<Integer> mystack) {
-        mystack.pop();
+    private void pop() {
+        memory.pop();
     }
 }
