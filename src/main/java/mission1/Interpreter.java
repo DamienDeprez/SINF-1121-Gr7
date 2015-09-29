@@ -1,5 +1,6 @@
 package mission1;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,10 +8,12 @@ public class Interpreter implements InterpreterInterface {
 
     private Stack<Double> memory = new MyStack<>(); // pile stockant les nombres à traiter
     private Map<String, Double> def = new HashMap(); //Map stockant les définitions => def.get(Key) retourne la valeur associé à la clé
+    private final static String [] keyword = {"pstack", "add", "sub", "mul", "div", "dup","exch", "eq", "ne", "def", "pop"};
 
     @Override
     public String interpret(String instructions) {
         String stringretour = null;
+        instructions.toLowerCase(); //met toutes les instructions en minuscule
         String[] str = instructions.split(" ");
         int i;
         for (i = 0; i < str.length; i++) {
@@ -21,10 +24,10 @@ public class Interpreter implements InterpreterInterface {
             } else if (str[i].equals("sub")) {
             } else if (str[i].equals("mul")) {
             } else if (str[i].equals("div")) {
-            } else if (str[i].compareTo("dup") == 0) {
+            } else if (str[i].equals("dup")) {
                 Double newint = memory.peek();
                 memory.push(newint);
-            } else if (str[i].compareTo("exch") == 0) {
+            } else if (str[i].equals("exch")) {
                 Double int1 = memory.pop();
                 Double int2 = memory.pop();
                 memory.push(int1);
@@ -34,6 +37,10 @@ public class Interpreter implements InterpreterInterface {
             } else if (str[i].equals("ne")) {
             } else if (str[i].equals("def")) {
             } else if (str[i].equals("pop")) {
+            }
+            else if(def.containsKey(str[i])) //Si la clé existe, alors on met sa valeur sur la pile
+            {
+                memory.push(def.get(str[i]));
             }
         }
 
@@ -93,8 +100,18 @@ public class Interpreter implements InterpreterInterface {
         return false;
     }
 
-    private void def() {
+    private void def(String key) {
 
+        //si la clé est un mot clé utilisé par le programme, retourne une erreur
+        if(Arrays.asList(keyword).contains(key))
+        {
+            //TODO lancer une exception
+        }
+        else
+        {
+            Double value = memory.pop();
+            def.put(key,value);
+        }
     }
 
     private void pop() {
