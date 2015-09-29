@@ -57,7 +57,15 @@ public class Interpreter extends InterpreterTests{
 		return true;
 	}
 	private void pstack(Stack<Integer> mystack){
-		
+		Stack<Integer> mystackbis = mystack;
+		if (mystackbis == null) {
+			System.out.print("");
+		}
+		else {
+			while (mystackbis != null) {
+				System.out.print(mystackbis.pop()+" ");
+			}
+		}
 	}
 	
 	private int add(int i, int j){
