@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Interpreter implements InterpreterInterface {
 
-    private Stack<Double> memory = new MyStack<>(); // pile stockant les nombres à traiter
+    private Stack<String> memory = new MyStack<>(); // pile stockant les nombres à traiter
     private Map<String, Double> def = new HashMap(); //Map stockant les définitions => def.get(Key) retourne la valeur associé à la clé
     private final static String [] keyword = {"pstack", "add", "sub", "mul", "div", "dup","exch", "eq", "ne", "def", "pop"};
 
@@ -18,20 +18,19 @@ public class Interpreter implements InterpreterInterface {
         int i;
         for (i = 0; i < str.length; i++) {
             if (isDouble(str[i])) {
-                memory.push(Double.parseDouble(str[i]));
+                memory.push(str[i]);
             } else if (str[i].equals("pstack")) { pstack();
             } else if (str[i].equals("add")) {
             } else if (str[i].equals("sub")) {
             } else if (str[i].equals("mul")) {
             } else if (str[i].equals("div")) {
             } else if (str[i].equals("dup")) {
-                Double newint = memory.peek();
-                memory.push(newint);
+                memory.push(memory.peek());
             } else if (str[i].equals("exch")) {
-                Double int1 = memory.pop();
-                Double int2 = memory.pop();
-                memory.push(int1);
-                memory.push(int2);
+                String num1 = memory.pop();
+                String num2 = memory.pop();
+                memory.push(num1);
+                memory.push(num2);
 
             } else if (str[i].equals("eq")) {
             } else if (str[i].equals("ne")) {
@@ -40,7 +39,7 @@ public class Interpreter implements InterpreterInterface {
             }
             else if(def.containsKey(str[i])) //Si la clé existe, alors on met sa valeur sur la pile
             {
-                memory.push(def.get(str[i]));
+                memory.push(def.get(str[i]).toString());
             }
         }
 
@@ -58,7 +57,7 @@ public class Interpreter implements InterpreterInterface {
     }
 
     private void pstack() {
-        Stack<Double> mystackbis = memory;
+        Stack<String> mystackbis = memory;
         if (mystackbis == null) {
             System.out.print("");
         } else {
@@ -92,15 +91,15 @@ public class Interpreter implements InterpreterInterface {
 
 	}
 
-	private boolean eq(Stack<Double> stack) { //Mettre des boolean dans une pile de double ?
-		if (stack.pop() == stack.pop()) {
-			stack.push(true);
+	private boolean eq() { //Mettre des boolean dans une pile de double ?
+		if (memory.pop().equals(memory.pop())) {
+			memory.push("true");
 			return true;
 		}
 		else {
-			stack.pop();
-			stack.pop();
-			stack.push(false);
+			memory.pop();
+			memory.pop();
+			memory.push("false");
 			return false;
 		}
 	}
@@ -119,7 +118,7 @@ public class Interpreter implements InterpreterInterface {
         else
         {
             key = key.substring(1);// retire le caractère "\" de la string
-            Double value = memory.pop();
+            Double value = Double.parseDouble(memory.pop());
             def.put(key,value);
             return true;
         }
