@@ -12,30 +12,63 @@ public class Interpreter implements InterpreterInterface {
 
     @Override
     public String interpret(String instructions) {
-        String stringretour = null;
+        String stringretour = "";
         instructions = instructions.toLowerCase(); //met toutes les instructions en minuscule
+        instructions = instructions.replace("\n", " "); // retire les retours à la ligne des instructions
         String[] str = instructions.split(" ");
         int i;
-        for (i = 0; i < str.length; i++) {
-            if (isDouble(str[i])) {
+        for (i = 0; i < str.length; i++)
+        {
+            if (isDouble(str[i]))
+            {
                 memory.push(str[i]);
-            } else if (str[i].equals("pstack")) { pstack();
-            } else if (str[i].equals("add")) {
-            } else if (str[i].equals("sub")) {
-            } else if (str[i].equals("mul")) {
-            } else if (str[i].equals("div")) {
-            } else if (str[i].equals("dup")) {
+            }
+            else if (str[i].equals("pstack"))
+            {
+                pstack();
+            }
+            else if (str[i].equals("add"))
+            {
+                simpleCalculate(1);
+            }
+            else if (str[i].equals("sub"))
+            {
+                simpleCalculate(2);
+            }
+            else if (str[i].equals("mul"))
+            {
+                simpleCalculate(3);
+            }
+            else if (str[i].equals("div"))
+            {
+                simpleCalculate(4);
+            }
+            else if (str[i].equals("dup"))
+            {
                 memory.push(memory.peek());
-            } else if (str[i].equals("exch")) {
+            }
+            else if (str[i].equals("exch"))
+            {
                 String num1 = memory.pop();
                 String num2 = memory.pop();
                 memory.push(num1);
                 memory.push(num2);
-
-            } else if (str[i].equals("eq")) {
-            } else if (str[i].equals("ne")) {
-            } else if (str[i].equals("def")) {
-            } else if (str[i].equals("pop")) {
+            }
+            else if (str[i].equals("eq"))
+            {
+                simpleCalculate(5);
+            }
+            else if (str[i].equals("ne"))
+            {
+                simpleCalculate(6);
+            }
+            else if (str[i].equals("def"))
+            {
+                def(str[i-2]); // TODO vérifier que l'on ne sort pas du tableau
+            }
+            else if (str[i].equals("pop"))
+            {
+                pop();
             }
             else if(def.containsKey(str[i])) //Si la clé existe, alors on met sa valeur sur la pile
             {
@@ -45,6 +78,62 @@ public class Interpreter implements InterpreterInterface {
 
         return stringretour;
 
+    }
+
+    /*
+     * Extrait de la mémoire les arguments pour les fonctions de calcul
+     * et effectue le calcul
+     */
+    private void simpleCalculate(int operation)
+    {
+        String num1 = memory.pop();
+        String num2 = memory.pop();
+        Double d1 = 0.0,d2 = 0.0;
+
+                /*
+                 * Essaye si on sait transformer num1 et num2 en double. Si on ne sait pas le faire,
+                 * On regarde si on les retrouve dans les définitions de variable
+                 */
+        try
+        {
+            d1 = Double.parseDouble(num1);
+        }
+        catch(NumberFormatException e)
+        {
+            if(def.containsKey(num1))
+            {
+                d1=def.get(num1);
+            }
+        }
+
+        try
+        {
+            d2 = Double.parseDouble(num2);
+        }
+        catch(NumberFormatException e)
+        {
+            if(def.containsKey(num2))
+            {
+                d2=def.get(num2);
+            }
+        }
+        switch (operation)
+        {
+            case 1: add(d1,d2);
+                break;
+            case 2: sub(d1,d2);
+                break;
+            case 3: mul(d1,d2);
+                break;
+            case 4: div(d1,d2);
+                break;
+            case 5: eq(d1,d2);
+                break;
+            case 6: ne(d1,d2);
+                break;
+            default: System.err.println("Error, invalid operator");
+                break;
+        }
     }
 
     private boolean isDouble(String string) {
@@ -61,7 +150,7 @@ public class Interpreter implements InterpreterInterface {
         if (mystackbis == null) {
             System.out.print("");
         } else {
-            while (mystackbis != null) {
+            while (!mystackbis.empty()) {
                 System.out.print(mystackbis.pop() + " ");
             }
         }
@@ -91,7 +180,7 @@ public class Interpreter implements InterpreterInterface {
 
 	}
 
-	private boolean eq() { //Mettre des boolean dans une pile de double ?
+	private boolean eq(double i, double j) { //!!! utiliser la définition de la fonction pas la changer
 		if (memory.pop().equals(memory.pop())) {
 			memory.push("true");
 			return true;
