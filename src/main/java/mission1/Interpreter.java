@@ -20,6 +20,7 @@ public class Interpreter implements InterpreterInterface {
             if (isDouble(str[i])) {
                 memory.push(Double.parseDouble(str[i]));
             } else if (str[i].equals("pstack")) {
+            	pstack();
             } else if (str[i].equals("add")) {
             } else if (str[i].equals("sub")) {
             } else if (str[i].equals("mul")) {
