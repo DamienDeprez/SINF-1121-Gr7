@@ -92,30 +92,16 @@ public class Interpreter implements InterpreterInterface {
 
                 /*
                  * Essaye si on sait transformer num1 et num2 en double. Si on ne sait pas le faire,
-                 * On regarde si on les retrouve dans les définitions de variable
+                 * On envoi un message d'erreur sur le terminal
                  */
         try
         {
             d1 = Double.parseDouble(num1);
-        }
-        catch(NumberFormatException e)
-        {
-            if(def.containsKey(num1))
-            {
-                d1=def.get(num1);
-            }
-        }
-
-        try
-        {
             d2 = Double.parseDouble(num2);
         }
         catch(NumberFormatException e)
         {
-            if(def.containsKey(num2))
-            {
-                d2=def.get(num2);
-            }
+            System.err.println(e.getMessage());
         }
         switch (operation)
         {
@@ -134,15 +120,6 @@ public class Interpreter implements InterpreterInterface {
             default: System.err.println("Error, invalid operator");
                 break;
         }
-    }
-
-    private boolean isDouble(String string) {
-        try {
-            Double.parseDouble(string);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
     }
 
     private void pstack() {
@@ -180,8 +157,8 @@ public class Interpreter implements InterpreterInterface {
 
 	}
 
-	private boolean eq(double i, double j) { //!!! utiliser la définition de la fonction pas la changer
-		if (memory.pop().equals(memory.pop())) {
+	private boolean eq(double i, double j) { //TODO!!! utiliser la définition de la fonction pas la changer
+		if (memory.pop() == memory.pop()) {
 			memory.push("true");
 			return true;
 		}
