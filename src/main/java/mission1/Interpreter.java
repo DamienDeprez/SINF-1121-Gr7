@@ -13,13 +13,13 @@ public class Interpreter implements InterpreterInterface {
     @Override
     public String interpret(String instructions) {
         String stringretour = null;
-        instructions.toLowerCase(); //met toutes les instructions en minuscule
+        instructions = instructions.toLowerCase(); //met toutes les instructions en minuscule
         String[] str = instructions.split(" ");
         int i;
         for (i = 0; i < str.length; i++) {
             if (isDouble(str[i])) {
                 memory.push(Double.parseDouble(str[i]));
-            } else if (str[i].equals("pstack")) {
+            } else if (str[i].equals("pstack")) { pstack();
             } else if (str[i].equals("add")) {
             } else if (str[i].equals("sub")) {
             } else if (str[i].equals("mul")) {
@@ -90,11 +90,20 @@ public class Interpreter implements InterpreterInterface {
 
     private void exch() {
 
-    }
+	}
 
-    private boolean eq(double i, double j) {
-        return false;
-    }
+	private boolean eq(Stack<Double> stack) { //Mettre des boolean dans une pile de double ?
+		if (stack.pop() == stack.pop()) {
+			stack.push(true);
+			return true;
+		}
+		else {
+			stack.pop();
+			stack.pop();
+			stack.push(false);
+			return false;
+		}
+	}
 
     private boolean ne(double i, double j) {
         return false;
