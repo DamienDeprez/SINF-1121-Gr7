@@ -101,7 +101,7 @@ public class Interpreter implements InterpreterInterface {
         }
         catch(NumberFormatException e)
         {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
         switch (operation)
         {
@@ -120,6 +120,15 @@ public class Interpreter implements InterpreterInterface {
             default: System.err.println("Error, invalid operator");
                 break;
         }
+    }
+
+    private boolean isDouble(String string) {
+        try {
+            Double.parseDouble(string);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 
     private void pstack() {
