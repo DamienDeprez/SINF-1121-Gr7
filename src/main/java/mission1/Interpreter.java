@@ -129,13 +129,8 @@ public class Interpreter implements InterpreterInterface {
 
 	}
 
-<<<<<<< HEAD
 	private boolean eq() { //TODO!!! utiliser la définition de la fonction pas la changer
 		if (memory.pop().equals(memory.pop())) {
-=======
-	public boolean eq() { //TODO!!! utiliser la définition de la fonction pas la changer
-		if (memory.pop() == memory.pop()) {
->>>>>>> c39d6ceff8a1eb015cbe26d600dff394c5c910c4
 			memory.push("true");
 			return true;
 		}
