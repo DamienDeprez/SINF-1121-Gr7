@@ -97,10 +97,21 @@ public class Interpreter implements InterpreterInterface {
         Stack<String> mystackbis = memory;
         if (mystackbis == null) {
             System.out.print("");
-        } else {
-            System.out.print(mystackbis.pop());
+        }
+        else {
+            if (def.contains(mystackbis.peek())) {
+                System.out.print(def.get(mystackbis.pop()));
+            }
+            else {
+                System.out.print(mystackbis.pop());
+            }
             while (!mystackbis.empty()) {
-                System.out.print(" " + mystackbis.pop());
+                if (def.contains(mystackbis.peek())) {
+                    System.out.print(" " + def.get(mystackbis.pop()));
+                }
+                else {
+                    System.out.print(" " + mystackbis.pop());
+                }
             }
         }
     }
@@ -130,20 +141,62 @@ public class Interpreter implements InterpreterInterface {
 	}
 
 	private boolean eq() { //TODO!!! utiliser la définition de la fonction pas la changer
-		if (memory.pop().equals(memory.pop())) {
-			memory.push("true");
-			return true;
-		}
-		else {
-			memory.pop();
-			memory.pop();
-			memory.push("false");
-			return false;
-		}
+		if(def.contains(memory.peek()) && def.contains(memory.next.peek())) {
+            if(def.get(memory.pop()) == def.get(memory.pop())) {
+                memory.push("true");
+                return true;
+            }
+            else {
+                memory.push("false");
+                return false;
+            }
+        }
+
+        else if(def.contains(memory.peek()) && !def.contains(memory.next.peek())) {
+            if(def.get(memory.pop()) == toDouble(memory.pop())) {
+                memory.push("true");
+                return true;
+            }
+            else {
+                memory.push("false");
+                return false;
+            }
+        }
+
+        else if(!def.contains(memory.peek()) && def.contains(memory.next.peek())) {
+            if(toDouble(memory.pop()) == def.get((memory.pop()))) {
+                memory.push("true");
+                return true;
+            }
+            else {
+                memory.push("false");
+                return false;
+            }
+        }
+
+        else {
+            if(toDouble(memory.pop()) == toDouble(memory.pop())) {
+                memory.push("true");
+                return true;
+            }
+            else {
+                memory.push("false");
+                return false;
+            }
+        }
 	}
 
     public boolean ne() {
-        return false;
+        boolean bool = eq();
+        memory.pop();
+        if(bool) {
+            memory.push("false");
+            return false;
+        }
+        else{
+            memory.push("true");
+            return true;
+        }
     }
 
     public boolean def() {
