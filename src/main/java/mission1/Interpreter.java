@@ -21,6 +21,12 @@ public class Interpreter implements InterpreterInterface {
         instructions = instructions.toLowerCase(); //met toutes les instructions en minuscule
         instructions = instructions.replace("\n", " "); // retire les retours à la ligne des instructions
         String[] str = instructions.split(" ");
+        Method[] method = c.getMethods();
+		System.out.println("il y a "+method.length+" méthodes dans cette classe");
+		for(int i=0;i<method.length;i++)
+		{
+				System.out.println(method[i]);
+		}
         int i;
         for (i = 0; i < str.length; i++)
         {
@@ -33,8 +39,8 @@ public class Interpreter implements InterpreterInterface {
             {
                 try
                 {
-                	m=c.getMethod(str[i], null); // recupere la methode nomee str[i]
-                	m.invoke(this, null); //execute la methode recuperer ci-dessus
+                	m=c.getMethod(str[i]); // recupere la methode nomee str[i]
+                	m.invoke(this); //execute la methode recuperer ci-dessus
 				}
                 catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
                 {
@@ -87,7 +93,7 @@ public class Interpreter implements InterpreterInterface {
 
     //!!! pstack doit écrire dans la string display et pas a l'écran car iterpreteur retourne le contenu de 
     //display !!!
-    private void pstack() {
+    public void pstack() {
         Stack<String> mystackbis = memory;
         if (mystackbis == null) {
             System.out.print("");
@@ -99,32 +105,37 @@ public class Interpreter implements InterpreterInterface {
         }
     }
 
-    private double add() {
+    public double add() {
         return 0;
     }
 
-    private double sub() {
+    public double sub() {
         return 0;
     }
 
-    private double mul() {
+    public double mul() {
         return 0;
     }
 
-    private double div() {
+    public double div() {
         return 0;
     }
 
-    private void dup() {
+    public void dup() {
 
     }
 
-    private void exch() {
+    public void exch() {
 
 	}
 
+<<<<<<< HEAD
 	private boolean eq() { //TODO!!! utiliser la définition de la fonction pas la changer
 		if (memory.pop().equals(memory.pop())) {
+=======
+	public boolean eq() { //TODO!!! utiliser la définition de la fonction pas la changer
+		if (memory.pop() == memory.pop()) {
+>>>>>>> c39d6ceff8a1eb015cbe26d600dff394c5c910c4
 			memory.push("true");
 			return true;
 		}
@@ -136,11 +147,11 @@ public class Interpreter implements InterpreterInterface {
 		}
 	}
 
-    private boolean ne() {
+    public boolean ne() {
         return false;
     }
 
-    private boolean def() {
+    public boolean def() {
 
         //si la clé est un mot clé utilisé par le programme, retourne une erreur
     	Double value = toDouble(memory.pop());
@@ -158,7 +169,7 @@ public class Interpreter implements InterpreterInterface {
         }
     }
 
-    private void pop() {
+    public void pop() {
         memory.pop();
     }
 }

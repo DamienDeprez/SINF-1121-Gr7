@@ -10,6 +10,6 @@ public class InterpreterTests {
 	public void Test1()
 	{
 		Interpreter i = new Interpreter();
-		i.interpret("1 pstack");
+		i.interpret("/var 1 def var pstack");
 	}
 }
