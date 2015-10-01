@@ -1,6 +1,9 @@
 package mission1;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,117 +12,68 @@ public class Interpreter implements InterpreterInterface {
     private Stack<String> memory = new MyStack<>(); // pile stockant les nombres à traiter
     private Map<String, Double> def = new HashMap(); //Map stockant les définitions => def.get(Key) retourne la valeur associé à la clé
     private final static String [] keyword = {"pstack", "add", "sub", "mul", "div", "dup","exch", "eq", "ne", "def", "pop"};
+    private String display="";
 
     @Override
     public String interpret(String instructions) {
-        String stringretour = "";
+        Class<? extends Interpreter> c = this.getClass(); //récupère la classe actuelle
+        Method m;
         instructions = instructions.toLowerCase(); //met toutes les instructions en minuscule
         instructions = instructions.replace("\n", " "); // retire les retours à la ligne des instructions
         String[] str = instructions.split(" ");
         int i;
         for (i = 0; i < str.length; i++)
         {
-            if (isDouble(str[i]))
+            
+        	/*
+        	 * Si c'est un mot clé, on appele la fonction associée
+        	 * Sinon on met la string en mémoire, c'est alors un nombre, un boolean ou une definition
+        	 */
+            if (Arrays.asList(keyword).contains(str[i]))
             {
-                memory.push(str[i]);
+                try
+                {
+                	m=c.getMethod(str[i], null); // recupere la methode nomee str[i]
+                	m.invoke(this, null); //execute la methode recuperer ci-dessus
+				}
+                catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+                {
+					e.printStackTrace();
+				}
             }
-            else if (str[i].equals("pstack"))
+            else
             {
-                pstack();
-            }
-            else if (str[i].equals("add"))
-            {
-                simpleCalculate(1);
-            }
-            else if (str[i].equals("sub"))
-            {
-                simpleCalculate(2);
-            }
-            else if (str[i].equals("mul"))
-            {
-                simpleCalculate(3);
-            }
-            else if (str[i].equals("div"))
-            {
-                simpleCalculate(4);
-            }
-            else if (str[i].equals("dup"))
-            {
-                memory.push(memory.peek());
-            }
-            else if (str[i].equals("exch"))
-            {
-                String num1 = memory.pop();
-                String num2 = memory.pop();
-                memory.push(num1);
-                memory.push(num2);
-            }
-            else if (str[i].equals("eq"))
-            {
-                simpleCalculate(5);
-            }
-            else if (str[i].equals("ne"))
-            {
-                simpleCalculate(6);
-            }
-            else if (str[i].equals("def"))
-            {
-                def(str[i-2]); // TODO vérifier que l'on ne sort pas du tableau
-            }
-            else if (str[i].equals("pop"))
-            {
-                pop();
-            }
-            else if(def.containsKey(str[i])) //Si la clé existe, alors on met sa valeur sur la pile
-            {
-                memory.push(def.get(str[i]).toString());
+            	memory.push(str[i]);
             }
         }
-
-        return stringretour;
-
+        return this.display;
     }
 
     /*
-     * Extrait de la mémoire les arguments pour les fonctions de calcul
-     * et effectue le calcul
+     * Converti la string en nombre et si ce n'est pas un nombre, regarde si elle existe dans les definitions
+     * @param arg, string a analyser
+     * @return les arguments s
+     * @throw lance une exception si arg n'est pas un double et ne se trouve pas dans la liste de defintion.
      */
-    private void simpleCalculate(int operation)
+    private Double toDouble(String arg)
     {
-        String num1 = memory.pop();
-        String num2 = memory.pop();
-        Double d1 = 0.0,d2 = 0.0;
-
-                /*
-                 * Essaye si on sait transformer num1 et num2 en double. Si on ne sait pas le faire,
-                 * On envoi un message d'erreur sur le terminal
-                 */
+    	Double argD = 0.0;
         try
         {
-            d1 = Double.parseDouble(num1);
-            d2 = Double.parseDouble(num2);
+        	Double.parseDouble(arg);
         }
-        catch(NumberFormatException e)
+        catch (NumberFormatException e)
         {
-            System.out.println(e.getMessage());
+        	if(def.containsKey(arg))
+        	{
+        		argD=def.get(arg);
+        	}
+        	else
+        	{
+        		throw new IllegalArgumentException(arg+" is not an number and doesn't exist in def var");
+        	}
         }
-        switch (operation)
-        {
-            case 1: add(d1,d2);
-                break;
-            case 2: sub(d1,d2);
-                break;
-            case 3: mul(d1,d2);
-                break;
-            case 4: div(d1,d2);
-                break;
-            case 5: eq(d1,d2);
-                break;
-            case 6: ne(d1,d2);
-                break;
-            default: System.err.println("Error, invalid operator");
-                break;
-        }
+        return argD;
     }
 
     private boolean isDouble(String string) {
@@ -131,6 +85,8 @@ public class Interpreter implements InterpreterInterface {
         return true;
     }
 
+    //!!! pstack doit écrire dans la string display et pas a l'écran car iterpreteur retourne le contenu de 
+    //display !!!
     private void pstack() {
         Stack<String> mystackbis = memory;
         if (mystackbis == null) {
@@ -142,19 +98,19 @@ public class Interpreter implements InterpreterInterface {
         }
     }
 
-    private double add(double i, double j) {
+    private double add() {
         return 0;
     }
 
-    private double sub(double i, double j) {
+    private double sub() {
         return 0;
     }
 
-    private double mul(double i, double j) {
+    private double mul() {
         return 0;
     }
 
-    private double div(double i, double j) {
+    private double div() {
         return 0;
     }
 
@@ -166,7 +122,7 @@ public class Interpreter implements InterpreterInterface {
 
 	}
 
-	private boolean eq(double i, double j) { //TODO!!! utiliser la définition de la fonction pas la changer
+	private boolean eq() { //TODO!!! utiliser la définition de la fonction pas la changer
 		if (memory.pop() == memory.pop()) {
 			memory.push("true");
 			return true;
@@ -179,23 +135,25 @@ public class Interpreter implements InterpreterInterface {
 		}
 	}
 
-    private boolean ne(double i, double j) {
+    private boolean ne() {
         return false;
     }
 
-    private boolean def(String key) {
+    private boolean def() {
 
         //si la clé est un mot clé utilisé par le programme, retourne une erreur
+    	Double value = toDouble(memory.pop());
+    	String key = memory.pop();
         if(Arrays.asList(keyword).contains(key))
         {
-            return false;
+            throw new IllegalArgumentException("the key is a keywoord");
         }
         else
         {
             key = key.substring(1);// retire le caractère "\" de la string
-            Double value = Double.parseDouble(memory.pop());
             def.put(key,value);
             return true;
+            
         }
     }
 
