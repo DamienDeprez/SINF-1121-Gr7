@@ -98,8 +98,9 @@ public class Interpreter implements InterpreterInterface {
         if (mystackbis == null) {
             System.out.print("");
         } else {
+            System.out.print(mystackbis.pop());
             while (!mystackbis.empty()) {
-                System.out.print(mystackbis.pop() + " ");
+                System.out.print(" " + mystackbis.pop());
             }
         }
     }
@@ -128,8 +129,8 @@ public class Interpreter implements InterpreterInterface {
 
 	}
 
-	public boolean eq() { //TODO!!! utiliser la définition de la fonction pas la changer
-		if (memory.pop() == memory.pop()) {
+	private boolean eq() { //TODO!!! utiliser la définition de la fonction pas la changer
+		if (memory.pop().equals(memory.pop())) {
 			memory.push("true");
 			return true;
 		}
