@@ -99,14 +99,14 @@ public class Interpreter implements InterpreterInterface {
             System.out.print("");
         }
         else {
-            if (def.contains(mystackbis.peek())) {
+            if (def.containsKey(mystackbis.peek())) {
                 System.out.print(def.get(mystackbis.pop()));
             }
             else {
                 System.out.print(mystackbis.pop());
             }
             while (!mystackbis.empty()) {
-                if (def.contains(mystackbis.peek())) {
+                if (def.containsKey(mystackbis.peek())) {
                     System.out.print(" " + def.get(mystackbis.pop()));
                 }
                 else {
@@ -141,8 +141,10 @@ public class Interpreter implements InterpreterInterface {
 	}
 
 	private boolean eq() { //TODO!!! utiliser la définition de la fonction pas la changer
-		if(def.contains(memory.peek()) && def.contains(memory.next.peek())) {
-            if(def.get(memory.pop()) == def.get(memory.pop())) {
+		String first = memory.pop();
+		String second = memory.pop();
+		if(def.containsKey(first) && def.containsKey(second)) {
+            if(def.get(first) == def.get(second)) {
                 memory.push("true");
                 return true;
             }
@@ -152,8 +154,8 @@ public class Interpreter implements InterpreterInterface {
             }
         }
 
-        else if(def.contains(memory.peek()) && !def.contains(memory.next.peek())) {
-            if(def.get(memory.pop()) == toDouble(memory.pop())) {
+        else if(def.containsKey(first) && !def.containsKey(second)) {
+            if(def.get(first) == toDouble(second)) {
                 memory.push("true");
                 return true;
             }
@@ -163,8 +165,8 @@ public class Interpreter implements InterpreterInterface {
             }
         }
 
-        else if(!def.contains(memory.peek()) && def.contains(memory.next.peek())) {
-            if(toDouble(memory.pop()) == def.get((memory.pop()))) {
+        else if(!def.containsKey(first) && def.containsKey(second)) {
+            if(toDouble(first) == def.get(second)) {
                 memory.push("true");
                 return true;
             }
@@ -175,7 +177,7 @@ public class Interpreter implements InterpreterInterface {
         }
 
         else {
-            if(toDouble(memory.pop()) == toDouble(memory.pop())) {
+            if(toDouble(first) == toDouble(second)) {
                 memory.push("true");
                 return true;
             }
