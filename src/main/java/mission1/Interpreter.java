@@ -15,6 +15,7 @@ public class Interpreter implements InterpreterInterface {
     @Override
     public String interpret(String instructions) {
         display="";
+        def.clear();
         Class<? extends Interpreter> c = this.getClass(); //récupère la classe actuelle
         Method m;
         instructions = instructions.toLowerCase(); //met toutes les instructions en minuscule
@@ -154,7 +155,11 @@ public class Interpreter implements InterpreterInterface {
                 memory.push(a*b);
                 break;
             case 3:
-                memory.push(a/b);
+                if(b==0)
+                {
+                    throw new ArithmeticException("\\ by zero");
+                }
+                memory.push((double)a/(double)b);
                 break;
             default:
                 break;
@@ -175,6 +180,10 @@ public class Interpreter implements InterpreterInterface {
                 memory.push(a*b);
                 break;
             case 3:
+                if(b==0)
+                {
+                    throw new ArithmeticException("\\ by zero");
+                }
                 memory.push(a/b);
                 break;
             default:
@@ -270,23 +279,9 @@ public class Interpreter implements InterpreterInterface {
             var2 = def.get(var2);
         }
 
-        if(var1 instanceof Integer && var2 instanceof Integer)
-        {
-            Boolean eq = var1==var2;
-            memory.push(eq.toString());
-            return eq;
-        }
-        else if(var1 instanceof Double && var2 instanceof Double)
-        {
-            Boolean eq = var1==var2;
-            memory.push(eq.toString());
-            return eq;
-        }
-        else
-        {
-            memory.push("false");
-            return false;
-        }
+        Boolean eq = var1.toString().equals(var2.toString());
+        memory.push(eq.toString());
+        return eq;
 
 	}
 
